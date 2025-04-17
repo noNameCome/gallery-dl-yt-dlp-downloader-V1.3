@@ -12,10 +12,7 @@ Python 3.4+  , ffmpeg
 ```bash
 https://www.python.org/downloads/
 ```
-```bash
-https://ffmpeg.org/download.html
-```
-📁 ffmpeg.exe , ffprobe.exe -> [root 폴더 내부 ffmpeg 이동]
+
 
 ### Pip
 ```bash
@@ -31,6 +28,13 @@ pip install yt-dl
 ※ 에러시 3번 재시도  
 ※ config.json 샘플 파일 수정  
 ※ 암튼 여러개 수정하고 추가함...
+
+---
+### ⚙️ ffmpeg 설정법
+```bash
+https://ffmpeg.org/download.html
+```
+📁 ffmpeg.exe , ffprobe.exe -> [root 폴더 내부 ffmpeg 이동] 
 
 ---
 
