@@ -1,0 +1,45 @@
+{
+  "extractor": {
+    "kemonoparty": {
+      "fanbox": {
+        "directory": ["kemonoparty", "{service}", "{user}","{title}"],
+        "filename": "{num}.{extension}"
+      },
+      "gumroad": {
+        "directory": ["kemonoparty", "{service}", "{user}","{title}"],
+        "filename": "{num}.{extension}"
+      },
+      "patreon": {
+        "directory": ["kemonoparty", "{service}", "{user}","{title}"],
+        "filename": "{num}.{extension}"
+      },
+      "fantia": {
+        "directory": ["kemonoparty", "{service}", "{user}","{title}"],
+        "filename": "{num}.{extension}"
+      }        
+    },
+    "exhentai": {
+      "directory": ["exhentai", "{title}"],
+      "filename": "{num}.jpg"
+    },
+    "hitomi": {
+      "directory": ["hitomi", "{title}"],
+      "filename": "{num}.jpg"
+    },
+    "twitter": {
+      "username": "",
+      "password": "",
+      "filename": "{author[name]}-{tweet_id}-({date:%Y%m%d_%H%M%S})-img{num}.{extension}"
+    },
+    "danbooru": {
+      "directory": ["danbooru", "{search_tags}"],
+      "filename": "{id}.{extension}"
+    },
+    "arca": {
+      "cookies": {
+        "uid": "riggive0408@gmail.com",
+        "token": "An258951!"
+      }
+    }
+  }
+}
