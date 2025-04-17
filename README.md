@@ -13,7 +13,6 @@ Python 3.4+  , ffmpeg
 https://www.python.org/downloads/
 ```
 
-
 ### Pip
 ```bash
 pip install gallery-dl
@@ -22,12 +21,10 @@ pip install yt-dl
 ---
 
 ### 🔧 변경사항
-
-※ +url/-url 기능 추가  
-※ 파일 이름 미리 설정 (ex:{파일이름}_1.jpg..) 이런 형식  
-※ 에러시 3번 재시도  
+※ gallery-dl,yt-dlp 통합
+※ 각종 오류 수정
 ※ config.json 샘플 파일 수정  
-※ 암튼 여러개 수정하고 추가함...
+※ 에러시 재시도 제거 
 
 ---
 ### ⚙️ ffmpeg 설정법
