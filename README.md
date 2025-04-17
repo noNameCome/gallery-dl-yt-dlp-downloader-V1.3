@@ -12,6 +12,9 @@ Python 3.4+  , ffmpeg
 ```bash
 https://www.python.org/downloads/
 ```
+```bash
+https://ffmpeg.org/download.html
+```
 
 ### Pip
 ```bash
