@@ -34,7 +34,7 @@ pip install yt-dl
 ```bash
 https://ffmpeg.org/download.html
 ```
-📁 ffmpeg.exe , ffprobe.exe -> [root 폴더 내부 ffmpeg 이동] 
+📁 ffmpeg.exe , ffprobe.exe -> [root 폴더에 있는 ffmpeg 내부 설치] 
 
 ---
 
