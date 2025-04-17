@@ -14,9 +14,10 @@ from logic.config import load_stored_output_dir, store_output_dir
 from logic.downloader import smart_download as ytdlp_smart_download
 from logic.downloader import is_youtube
 from logic.downloader import download_gallery as gallery_download
+from logic.downloader import kill_proc_tree
 
 
-MAX_RETRIES = 3
+MAX_RETRIES = 1
 CREATE_NO_WINDOW = 0x08000000
 HACKER_GREEN = "#00FF00"
 HACKER_BG = "#0d0d0d"
@@ -271,9 +272,11 @@ class GalleryDLGUI:
 
         for proc in self.processes:
             try:
-                if os.name == "nt":  # Windows 전용
-                    proc.send_signal(signal.CTRL_BREAK_EVENT)
-                proc.terminate()
+                if os.name == "nt":
+                    self.log(f"⚠ 강제 종료 시도 (PID: {proc.pid})")
+                    kill_proc_tree(proc.pid)  # ✅ 여기 핵심!
+                else:
+                    proc.terminate()
             except Exception as e:
                 self.log(f"⚠️ 프로세스 종료 실패: {e}")
 
@@ -346,7 +349,8 @@ class GalleryDLGUI:
                     filename=filename,
                     log_func=self.log,
                     resolution=resolution,
-                    audio_only=audio_only
+                    audio_only=audio_only,
+                    cancel_check_func=lambda: self._cancel_requested
                 )
             else:
                 selected_exts = [ext for ext, var in self.filter_vars.items() if var.get()]
