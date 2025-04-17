@@ -21,10 +21,10 @@ pip install yt-dl
 ---
 
 ### 🔧 변경사항
-※ gallery-dl,yt-dlp 통합
-※ 각종 오류 수정
-※ config.json 샘플 파일 수정  
-※ 에러시 재시도 제거 
+※ gallery-dl,yt-dlp 통합<br>
+※ 각종 오류 수정<br>
+※ config.json 샘플 파일 수정 <br>
+※ 에러시 재시도 제거 <br>
 
 ---
 ### ⚙️ ffmpeg 설정법
