@@ -1,7 +1,6 @@
 # gallery-dl-yt-dlp-downloader-V1.3
 gallery-dl,yt-dlp-downloader V1.3(KOREAN)
 
-
 ![Image](https://github.com/user-attachments/assets/6dd121af-1a3d-4dfa-b120-b2449e8ef236)
 
 ---
@@ -16,7 +15,8 @@ https://www.python.org/downloads/
 ```bash
 https://ffmpeg.org/download.html
 ```
-ffmpeg.exe,ffprobe.exe
+📁 ffmpeg.exe , ffprobe.exe -> [root 폴더 내부 ffmpeg 이동]
+
 ### Pip
 ```bash
 pip install gallery-dl
