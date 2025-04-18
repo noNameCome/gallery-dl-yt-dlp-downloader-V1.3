@@ -3,12 +3,16 @@ from tkinter import filedialog, messagebox, scrolledtext
 import subprocess
 import threading
 import os
+import sys
 import json
 import re
 import signal
 import requests
 from PIL import Image
 from tkinter import ttk
+if sys.platform == "win32":
+    os.system("chcp 65001")
+
 
 from logic.config import load_stored_output_dir, store_output_dir
 from logic.downloader import smart_download as ytdlp_smart_download
@@ -16,8 +20,6 @@ from logic.downloader import is_youtube
 from logic.downloader import download_gallery as gallery_download
 from logic.downloader import kill_proc_tree
 
-
-MAX_RETRIES = 1
 CREATE_NO_WINDOW = 0x08000000
 HACKER_GREEN = "#00FF00"
 HACKER_BG = "#0d0d0d"
@@ -38,7 +40,7 @@ class GalleryDLGUI:
 
     def init_ui(self):
         self.url_var = tk.StringVar()
-        font = ("Consolas", 14)
+        font = ("Malgun Gothic", 14)
 
         style = ttk.Style()
         style.theme_use("clam")
@@ -98,7 +100,7 @@ class GalleryDLGUI:
         ytdlp_frame.pack(pady=6)
 
          # ---- yt-dlp 옵션 설정 ----
-        separator_label = tk.Label(self.root,text="*" * 30 + " 유튜브 관련 옵션 " + "*" * 30,font=("Consolas", 14, "bold"), fg=HACKER_ACCENT, bg=HACKER_BG,anchor="center")
+        separator_label = tk.Label(self.root,text="*" * 30 + " 유튜브 관련 옵션 " + "*" * 30,font=("Malgun Gothic", 14, "bold"), fg=HACKER_ACCENT, bg=HACKER_BG,anchor="center")
         separator_label.pack(pady=(10, 4))
 
         ytdlp_frame = tk.Frame(self.root, bg=HACKER_BG)
@@ -118,7 +120,7 @@ class GalleryDLGUI:
         log_frame = tk.Frame(self.root, bg=HACKER_BG)
         log_frame.pack(padx=10, pady=5, fill="both", expand=True)
 
-        self.output_log = tk.Text(log_frame, width=90, height=24,font=("Consolas", 10),bg="black", fg=HACKER_GREEN,insertbackground=HACKER_GREEN,relief="flat", wrap="word")
+        self.output_log = tk.Text(log_frame, width=90, height=10,font=("Malgun Gothic", 10),bg="black", fg=HACKER_GREEN,insertbackground=HACKER_GREEN,relief="flat", wrap="word")
         scrollbar = ttk.Scrollbar(log_frame,orient="vertical",command=self.output_log.yview,style="Custom.Vertical.TScrollbar")
 
         self.output_log.configure(yscrollcommand=scrollbar.set)
@@ -140,13 +142,13 @@ class GalleryDLGUI:
         row_frame = tk.Frame(self.url_container, bg=HACKER_BG)
         row_frame.pack(fill="x", pady=6)
 
-        url_entry = tk.Entry(row_frame,font=("Consolas", 12),bg=HACKER_DARK,fg=HACKER_GREEN,insertbackground=HACKER_GREEN,relief="flat")
+        url_entry = tk.Entry(row_frame,font=("Malgun Gothic", 12),bg=HACKER_DARK,fg=HACKER_GREEN,insertbackground=HACKER_GREEN,relief="flat")
         url_entry.insert(0, "URL을 입력하세요")
         url_entry.pack(side="top", fill="x", padx=2, ipady=5)
         url_entry.bind("<FocusIn>", lambda e: self.clear_placeholder(url_entry, "URL을 입력하세요"))
         url_entry.bind("<FocusOut>", lambda e: self.restore_placeholder(url_entry, "URL을 입력하세요"))
 
-        filename_entry = tk.Entry(row_frame,font=("Consolas", 12),bg=HACKER_DARK,fg=HACKER_GREEN,insertbackground=HACKER_GREEN,relief="flat")
+        filename_entry = tk.Entry(row_frame,font=("Malgun Gothic", 12),bg=HACKER_DARK,fg=HACKER_GREEN,insertbackground=HACKER_GREEN,relief="flat")
         filename_entry.insert(0, "파일이름 입력 (선택)")
         filename_entry.pack(side="top", fill="x", padx=2, pady=(4, 0), ipady=3)
         filename_entry.bind("<FocusIn>", lambda e: self.clear_placeholder(filename_entry, "파일이름 입력 (선택)"))
@@ -175,7 +177,11 @@ class GalleryDLGUI:
             self.root.geometry(f"780x{new_height}")
 
     def open_download_folder(self):
-        folder_path = self.output_dir_var.get().strip()
+        if hasattr(self, 'last_community_path') and self.last_community_path:
+            folder_path = self.last_community_path
+        else:
+            folder_path = self.output_dir_var.get().strip()
+
         if os.path.exists(folder_path):
             try:
                 os.startfile(folder_path)
@@ -183,6 +189,38 @@ class GalleryDLGUI:
                 messagebox.showerror("오류", f"폴더 열기 실패:\n{e}")
         else:
             messagebox.showwarning("경고", "지정한 폴더가 존재하지 않습니다.")
+
+    def download_thread(self, url, output_dir):
+        def log(msg):
+            self.log_area.insert(tk.END, msg + "\n")
+            self.log_area.see(tk.END)
+
+        def cancel():
+            return self._cancel_requested
+
+        result = ytdlp_smart_download(
+            url, output_dir, filename=None,
+            log_func=self.thread_safe_log,
+            resolution=self.resolution_var.get(),
+            audio_only=self.audio_only_var.get(),
+            cancel_check_func=cancel
+        )
+
+        if isinstance(result, str):
+            self.last_community_path = result
+
+        self.status_var.set("상태: 완료" if result else "상태: 실패")
+        self.download_button.config(state="normal")
+        self.cancel_button.config(state="disabled")
+
+    def thread_safe_log(self, msg):
+        self.root.after(0, lambda: self._append_log(msg))
+
+    def _append_log(self, msg):
+        self.output_log.config(state=tk.NORMAL)
+        self.output_log.insert(tk.END, msg + '\n')
+        self.output_log.see(tk.END)
+        self.output_log.config(state=tk.DISABLED)
 
     def clear_placeholder(self, entry, placeholder):
         if entry.get() == placeholder:
@@ -193,39 +231,26 @@ class GalleryDLGUI:
             entry.insert(0, placeholder)
 
     def download_multiple(self, url_info_list, output_dir):
-        retry_count = {url: 0 for url, _ in url_info_list}
         failed_urls = []
-        urls = url_info_list.copy()
 
-        while urls:
-            url, filename = urls.pop(0)
-            num = len(retry_count) - len(urls)  # 현재 순번
-
-            self.status_var.set(f"상태: 다운로드 중... ({num}/{len(retry_count)})")
-            self.log(f"🔹 시도 중: {url} (재시도 {retry_count[url]}/{MAX_RETRIES})")
-
-            success = self.smart_download(url, output_dir, num, filename)
-
+        for idx, (url, filename) in enumerate(url_info_list, start=1):
+            self.status_var.set(f"상태: 다운로드 중... ({idx}/{len(url_info_list)})")
+            success = self.smart_download(url, output_dir, idx, filename)
 
             if not success:
-                retry_count[url] += 1
-                if retry_count[url] < MAX_RETRIES:
-                    self.log(f"🔁 실패! 재시도 대기열에 추가: {url}")
-                    urls.append((url, filename))
-                else:
-                    self.log(f"❌ 최종 실패: {url}")
-                    failed_urls.append(url)
+                self.log(f"❌ 실패: {url}")
+                failed_urls.append(url)
 
-        if failed_urls:
-            self.log("🚫 다음 URL들은 실패했습니다:")
-            for f in failed_urls:
-                self.log(f"    - {f}")
-            self.status_var.set("상태: 일부 실패")
-        else:
-            self.status_var.set("상태: 완료")
-            self.log("✅ 모든 다운로드 성공!")
+            if failed_urls:
+                self.log("🚫 다음 URL들은 실패했습니다:")
+                for f in failed_urls:
+                    self.log(f"    - {f}")
+                self.status_var.set("상태: 일부 실패")
+            else:
+                self.status_var.set("상태: 완료")
+                self.log("✅ 모든 다운로드 성공!")
 
-        self.enable_ui()
+            self.enable_ui()
 
     def start_download(self):
         self.resolution_warning_shown = False
@@ -237,13 +262,9 @@ class GalleryDLGUI:
             url = url_entry.get().strip()
             filename = file_entry.get().strip()
 
-            if url.startswith("http://") or url.startswith("https://"):
-                # Placeholder가 아니고, 유효한 URL만 추가
+            if re.match(r'^https?://', url):
                 if filename == "파일이름 입력 (선택)" or not filename:
                     filename = None
-                url_info.append((url, filename))
-                
-            if re.match(r'^https?://', url):
                 url_info.append((url, filename))
 
         if not url_info:
