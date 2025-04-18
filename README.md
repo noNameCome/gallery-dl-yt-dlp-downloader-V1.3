@@ -3,6 +3,8 @@ gallery-dl,yt-dlp-downloader V1.4(KOREAN)
 
 ![Image](https://github.com/user-attachments/assets/c9900799-0314-4567-9d24-0ed8bc6aa0f4)
 
+유튜브 전체 게시물 이미지 크롤링
+![Image](https://github.com/user-attachments/assets/bbbf1481-1855-4c3a-a46c-061d3db35420)
 ---
 
 ### 📥 요구사항
