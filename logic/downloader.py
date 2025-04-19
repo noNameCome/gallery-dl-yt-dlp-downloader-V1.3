@@ -9,6 +9,8 @@ import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
+env = os.environ.copy()
+env["PYTHONIOENCODING"] = "utf-8"
 
 CREATE_NO_WINDOW = 0x08000000
 
@@ -73,7 +75,8 @@ def run_ytdlp(url, output_path, filename, log_func, resolution="720", audio_only
             universal_newlines=True,
             encoding='utf-8',
             errors='replace',
-            creationflags=CREATE_NO_WINDOW | (subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0)
+            creationflags=CREATE_NO_WINDOW | (subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0),
+            env=env
         )
 
         while proc.poll() is None:
@@ -263,7 +266,8 @@ def download_gallery(url, output_dir, filename, selected_exts, log_func, status_
             universal_newlines=True,
             encoding='utf-8',
             errors='replace',
-            creationflags=CREATE_NO_WINDOW | (subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0)
+            creationflags=CREATE_NO_WINDOW | (subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0),
+            env=env
         )
         proc_register(proc)
 
