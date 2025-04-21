@@ -46,125 +46,32 @@ placeholder_text = "파일이름 입력 (선택)"
 DOWNLOAD_BTN_COLOR = "#ff1a1a"  # 다운로드 버튼 색상
 DOWNLOAD_BTN_HOVER = "#ff4d4d"  # 다운로드 버튼 호버 색상
 
-class TitleBar(tk.Frame):
-    def __init__(self, parent, window):
-        super().__init__(parent, bg=TITLE_BAR_BG, height=TITLE_BAR_HEIGHT)
-        self.window = window
-        self.pack_propagate(False)
-        
-        # 윈도우 이동을 위한 변수들
-        self._x = 0
-        self._y = 0
-        self._dragging = False
-        
-        # 타이틀 레이블 생성
-        self.title_label = tk.Label(self, text="💀 GALLERY-DL DOWNLOADER", bg=TITLE_BAR_BG, fg=TITLE_BAR_FG, font=("Malgun Gothic", 10))
-        self.title_label.pack(side="left", padx=10)
-        
-        # 버튼 프레임 생성
-        button_frame = tk.Frame(self, bg=TITLE_BAR_BG)
-        button_frame.pack(side="right", fill="y")
-        
-        # 최소화 버튼 생성
-        self.min_button = tk.Label(button_frame, text="─", bg=TITLE_BAR_BG, fg=TITLE_BAR_FG, font=("Malgun Gothic", 10), width=4, cursor="hand2")
-        self.min_button.pack(side="left", fill="y")
-        
-        # 최대화 버튼 생성
-        self.max_button = tk.Label(button_frame, text="□", bg=TITLE_BAR_BG, fg=TITLE_BAR_FG, font=("Malgun Gothic", 10), width=4, cursor="hand2")
-        self.max_button.pack(side="left", fill="y")
-        
-        # 닫기 버튼 생성
-        self.close_button = tk.Label(button_frame, text="×", bg=TITLE_BAR_BG, fg=TITLE_BAR_FG, font=("Malgun Gothic", 10), width=4, cursor="hand2")
-        self.close_button.pack(side="left", fill="y")
-        
-        # 이벤트 바인딩 설정
-        self.bind_events()
-        
-    def bind_events(self):
-        # 타이틀바 드래그 이벤트 설정
-        self.bind("<Button-1>", self.start_drag)
-        self.bind("<B1-Motion>", self.on_drag)
-        self.bind("<ButtonRelease-1>", self.stop_drag)
-        
-        # 타이틀 레이블 드래그 이벤트 설정
-        self.title_label.bind("<Button-1>", self.start_drag)
-        self.title_label.bind("<B1-Motion>", self.on_drag)
-        self.title_label.bind("<ButtonRelease-1>", self.stop_drag)
-        
-        # 버튼 이벤트 설정
-        self.min_button.bind("<Button-1>", lambda e: self.window.iconify())
-        self.max_button.bind("<Button-1>", self.toggle_maximize)
-        self.close_button.bind("<Button-1>", lambda e: self.window.destroy())
-        
-        # 버튼 호버 효과 설정
-        for button in [self.min_button, self.max_button, self.close_button]:
-            button.bind("<Enter>", lambda e, b=button: self.on_button_hover(b, True))
-            button.bind("<Leave>", lambda e, b=button: self.on_button_hover(b, False))
-    
-    def start_drag(self, event):
-        # 버튼 위에서는 드래그 시작하지 않음
-        if event.widget in [self.min_button, self.max_button, self.close_button]:
-            return
-        
-        self._dragging = True
-        self._x = event.x_root - self.window.winfo_x()
-        self._y = event.y_root - self.window.winfo_y()
-    
-    def on_drag(self, event):
-        if self._dragging:
-            x = event.x_root - self._x
-            y = event.y_root - self._y
-            self.window.geometry(f"+{x}+{y}")
-    
-    def stop_drag(self, event):
-        self._dragging = False
-    
-    def toggle_maximize(self, event):
-        # 최대화/복원 토글
-        if self.window.state() == "zoomed":
-            self.window.state("normal")
-            self.max_button.configure(text="□")
-        else:
-            self.window.state("zoomed")
-            self.max_button.configure(text="❐")
-    
-    def on_button_hover(self, button, entering):
-        # 버튼 호버 효과 적용
-        if entering:
-            button.configure(bg=TITLE_BAR_BUTTON_HOVER)
-            if button == self.close_button:
-                button.configure(fg=HACKER_RED)
-        else:
-            button.configure(bg=TITLE_BAR_BG)
-            button.configure(fg=TITLE_BAR_FG)
-
 class GalleryDLGUI:
     def __init__(self, root):
         self.root = root
-        self.root.withdraw()  # 임시로 윈도우 숨기기
+        self.root.title("💀 GALLERY-DL DOWNLOADER")
+        self.root.geometry("800x800")
+        self.root.configure(bg=HACKER_BG)
+        self.root.resizable(True, True)
         
-        # 새 윈도우 생성
-        self.window = tk.Toplevel(self.root)
-        self.window.geometry("800x800")
-        self.window.configure(bg=HACKER_BG)
-        self.window.title("💀 GALLERY-DL DOWNLOADER")
-        self.window.overrideredirect(True)
-        self.window.resizable(True, True)
+        # 작업 표시줄 아이콘 설정
+        try:
+            if hasattr(sys, '_MEIPASS'):  # PyInstaller 환경 확인
+                icon_path = os.path.join(sys._MEIPASS, "icon.ico")
+            else:
+                icon_path = "icon.ico"
+            if os.path.exists(icon_path):
+                self.root.iconbitmap(icon_path)
+        except:
+            pass
         
-        # 작업 표시줄에 아이콘이 표시되도록 설정
-        self.window.after(10, lambda: self.window.wm_withdraw())
-        self.window.after(20, lambda: self.window.wm_deiconify())
-        
+        # 초기화
         self.processes = []
         self.stored_dir = load_stored_output_dir()
         
         # 메인 컨테이너 생성
-        self.container = tk.Frame(self.window, bg=HACKER_BG)
+        self.container = tk.Frame(self.root, bg=HACKER_BG)
         self.container.pack(fill="both", expand=True)
-        
-        # 커스텀 타이틀바 추가
-        self.title_bar = TitleBar(self.container, self.window)
-        self.title_bar.pack(fill="x")
         
         # 메인 컨텐츠 프레임 생성
         self.main_frame = tk.Frame(self.container, bg=HACKER_BG)
@@ -173,29 +80,55 @@ class GalleryDLGUI:
         self.init_ui()
         
         # 최소 창 크기 설정
-        self.window.minsize(700, 700)
-        
-        # 창 테두리 스타일 설정
-        self.window.option_add('*TButton*padding', 5)
-        self.window.option_add('*TButton*relief', 'flat')
-        self.window.option_add('*TButton*background', HACKER_DARK)
-        self.window.option_add('*TButton*foreground', HACKER_GREEN)
-        self.window.option_add('*TButton*activeBackground', HACKER_ACCENT)
-        self.window.option_add('*TButton*activeForeground', HACKER_BG)
+        self.root.minsize(700, 700)
         
         # 창 테두리 설정
         self.container.configure(highlightbackground=HACKER_BORDER, highlightthickness=1)
         
         # 윈도우 종료 시 이벤트 처리
-        self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         
-        # 메인 윈도우를 작업 표시줄에서 숨김
-        self.root.withdraw()
+        # Alt+F4 키 바인딩 추가
+        self.root.bind('<Alt-F4>', lambda e: self.on_closing())
         
+        # 윈도우를 화면 중앙에 위치
+        self.center_window()
+
+    def center_window(self):
+        """윈도우를 화면 중앙에 위치시킴"""
+        self.root.update_idletasks()
+        width = self.root.winfo_width()
+        height = self.root.winfo_height()
+        x = (self.root.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.root.winfo_screenheight() // 2) - (height // 2)
+        self.root.geometry(f'{width}x{height}+{x}+{y}')
+
     def on_closing(self):
-        # 메인 윈도우와 모든 자식 창 종료
-        self.root.quit()
-        self.root.destroy()
+        """프로그램 종료 처리"""
+        try:
+            # 실행 중인 모든 프로세스 종료
+            for proc in self.processes:
+                try:
+                    if os.name == "nt":
+                        kill_proc_tree(proc.pid)
+                    else:
+                        proc.terminate()
+                except:
+                    pass
+            
+            # 윈도우 종료
+            if self.root:
+                self.root.quit()
+                self.root.destroy()
+            
+            # 프로세스 완전 종료
+            if hasattr(sys, 'exit'):
+                sys.exit(0)
+            else:
+                os._exit(0)
+        except:
+            # 강제 종료
+            os._exit(1)
 
     def init_ui(self):
         self.url_var = tk.StringVar()
@@ -414,7 +347,7 @@ class GalleryDLGUI:
 
         # Adjust window size
         new_height = 800 + len(self.url_sets) * 60
-        self.window.geometry(f"800x{new_height}")
+        self.root.geometry(f"800x{new_height}")
 
     def toggle_resolution_buttons(self, *args):
         state = tk.DISABLED if self.audio_only_var.get() else tk.NORMAL
@@ -429,7 +362,7 @@ class GalleryDLGUI:
 
             # Adjust window size
             new_height = 800 + len(self.url_sets) * 60
-            self.window.geometry(f"800x{new_height}")
+            self.root.geometry(f"800x{new_height}")
 
     def open_download_folder(self):
         if hasattr(self, 'last_community_path') and self.last_community_path:
@@ -474,7 +407,7 @@ class GalleryDLGUI:
 
     def thread_safe_log(self, msg):
         # 스레드 안전한 로그 출력
-        self.window.after(0, lambda: self._append_log(msg))
+        self.root.after(0, lambda: self._append_log(msg))
 
     def _append_log(self, msg):
         # 로그 메시지 추가
@@ -653,21 +586,12 @@ class GalleryDLGUI:
             return False
 
     def open_new_window(self):
-        new_window = tk.Toplevel(self.root)
-        new_window.title("💀 GALLERY-DL DOWNLOADER")
-        new_window.geometry("800x800")
-        new_window.configure(bg=HACKER_BG)
-        new_window.resizable(True, True)
-        new_window.minsize(700, 700)
-        
-        # 새 창에 대한 GUI 인스턴스 생성
-        new_gui = GalleryDLGUI(new_window)
-        
-        # 새 창이 닫힐 때 이벤트 처리
-        def on_closing():
-            new_window.destroy()
-        
-        new_window.protocol("WM_DELETE_WINDOW", on_closing)
+        """새 창 열기"""
+        # 새 창 생성을 위한 Toplevel 대신 새로운 프로세스 시작
+        if sys.platform == "win32":
+            subprocess.Popen([sys.executable, sys.argv[0]], creationflags=subprocess.CREATE_NEW_CONSOLE)
+        else:
+            subprocess.Popen([sys.executable, sys.argv[0]])
 
     def clear_all_urls(self):
         # 모든 URL 입력 필드 초기화
@@ -684,4 +608,4 @@ class GalleryDLGUI:
 
         # 창 크기 조정
         new_height = 800 + len(self.url_sets) * 60
-        self.window.geometry(f"800x{new_height}")
+        self.root.geometry(f"800x{new_height}")

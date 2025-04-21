@@ -1,45 +1,45 @@
 {
-  "extractor": {
-    "kemonoparty": {
-      "fanbox": {
-        "directory": ["kemonoparty", "{service}", "{user}","{title}"],
-        "filename": "{num}.{extension}"
+    "extractor": {
+      "kemonoparty": {
+        "fanbox": {
+          "directory": ["kemonoparty", "{service}", "{user}","{title}"],
+          "filename": "{title}-{num}.{extension}"
+        },
+        "gumroad": {
+          "directory": ["kemonoparty", "{service}", "{user}","{title}"],
+          "filename": "{title}-{num}.{extension}"
+        },
+        "patreon": {
+          "directory": ["kemonoparty", "{service}", "{user}","{title}"],
+          "filename": "{title}-{num}.{extension}"
+        },
+        "fantia": {
+          "directory": ["kemonoparty", "{service}", "{user}","{title}"],
+          "filename": "{title}-{num}.{extension}"
+        }        
       },
-      "gumroad": {
-        "directory": ["kemonoparty", "{service}", "{user}","{title}"],
-        "filename": "{num}.{extension}"
+      "exhentai": {
+        "directory": ["exhentai", "{title}"],
+        "filename": "{num}.jpg"
       },
-      "patreon": {
-        "directory": ["kemonoparty", "{service}", "{user}","{title}"],
-        "filename": "{num}.{extension}"
+      "hitomi": {
+        "directory": ["hitomi", "{title}"],
+        "filename": "{num}.jpg"
       },
-      "fantia": {
-        "directory": ["kemonoparty", "{service}", "{user}","{title}"],
-        "filename": "{num}.{extension}"
-      }        
-    },
-    "exhentai": {
-      "directory": ["exhentai", "{title}"],
-      "filename": "{num}.jpg"
-    },
-    "hitomi": {
-      "directory": ["hitomi", "{title}"],
-      "filename": "{num}.jpg"
-    },
-    "twitter": {
-      "username": "",
-      "password": "",
-      "filename": "{author[name]}-{tweet_id}-({date:%Y%m%d_%H%M%S})-img{num}.{extension}"
-    },
-    "danbooru": {
-      "directory": ["danbooru", "{search_tags}"],
-      "filename": "{id}.{extension}"
-    },
-    "arca": {
-      "cookies": {
-        "uid": "riggive0408@gmail.com",
-        "token": "An258951!"
+      "twitter": {
+        "username": "",
+        "password": "",
+        "filename": "{author[name]}-{tweet_id}-({date:%Y%m%d_%H%M%S})-img{num}.{extension}"
+      },
+      "danbooru": {
+        "directory": ["danbooru", "{search_tags}"],
+        "filename": "{id}.{extension}"
+      },
+      "arca": {
+        "cookies": {
+          "uid": "riggive0408@gmail.com",
+          "token": "An258951!"
+        }
       }
     }
   }
-}
