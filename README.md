@@ -29,11 +29,11 @@ https://ffmpeg.org/download.html
 
 ### Pip
 ```bash
-pip install gallery-dl
+pip install gallery-dl<br>
 pip install -U gallery-dl - 업데이트 명령어
 ```
 ```bash
-pip install yt-dl
+pip install yt-dl<br>
 pip install -U yt-dlp - 업데이트 명령어
 ```
 
@@ -45,12 +45,13 @@ pip install -U yt-dlp - 업데이트 명령어
 https://ffmpeg.org/download.html
 ```
 설치법
-1. 윈도우 아이콘 클릭
-2.Windows builds from gyan.dev 클릭
-3.ffmpeg-git-essentials.7z 다운
-4. *이곳에 ffmpeg폴더 내부에 (📁 ffmpeg.exe , ffprobe.exe) 넣을것*
+1. 윈도우 아이콘 클릭<br>
+2.Windows builds from gyan.dev 클릭<br>
+3.ffmpeg-git-essentials.7z 다운<br>
+4. *이곳에 ffmpeg폴더 내부에 (📁 ffmpeg.exe , ffprobe.exe) 넣을것*<br>
 
 ---
+
 
 ### ⚙️ config.json 설정법
 `config.json`에 있는 내용을 전체 선택 후  
