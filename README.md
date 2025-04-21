@@ -7,25 +7,24 @@ gallery-dl,yt-dlp-downloader V1.5(KOREAN)
 
 gallery-dl 
 ※ gallery-dl 지원 사이트 사용 가능 > 
-```bash
+
 https://github.com/mikf/gallery-dl/blob/master/docs/supportedsites.md
-```
+---
 yt-dlp
 yt-dlp 지원 사이트 사용 가능 >
-```bash
+
 https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md
-```
+---
 
 ### 📥 요구사항
 
 ## Installation
 Python 3.4+,ffmpeg
-```bash
+
 https://www.python.org/downloads/
-```
-```bash
+---
 https://ffmpeg.org/download.html
-```
+---
 
 ### Pip
 ```bash
@@ -41,16 +40,16 @@ pip install -U yt-dlp - 업데이트 명령어
 
 ---
 ### ⚙️ ffmpeg 설정법
-```bash
+
 https://ffmpeg.org/download.html
-```
+---
 설치법
 
 1.윈도우 아이콘 클릭<br>
 2.Windows builds from gyan.dev 클릭<br>
 3.ffmpeg-git-essentials.7z 다운<br>
 4.ffmpeg폴더 내부에 (📁 ffmpeg.exe , ffprobe.exe) 넣을것
----
+
 
 
 ### ⚙️ config.json 설정법
