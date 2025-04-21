@@ -1,5 +1,5 @@
 # gallery-dl-yt-dlp-downloader-V1.5
-gallery-dl,yt-dlp-downloader V1.4(KOREAN)
+gallery-dl,yt-dlp-downloader V1.5(KOREAN)
 
 ![Image](https://github.com/user-attachments/assets/1258e35d-06d9-4b1d-9a8b-00c36a01e4e6)
 
