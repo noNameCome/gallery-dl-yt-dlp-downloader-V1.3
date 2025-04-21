@@ -8,7 +8,7 @@ gallery-dl,yt-dlp-downloader V1.5(KOREAN)
 gallery-dl 
 ※ gallery-dl 지원 사이트 사용 가능 > 
 ```bash
-https://github.com/mikf/gallery-dl/blob/master/docs/supportedsites.md <br>
+https://github.com/mikf/gallery-dl/blob/master/docs/supportedsites.md
 ```
 yt-dlp
 yt-dlp 지원 사이트 사용 가능 >
