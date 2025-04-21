@@ -45,10 +45,10 @@ pip install -U yt-dlp - 업데이트 명령어
 https://ffmpeg.org/download.html
 ```
 설치법
-1. 윈도우 아이콘 클릭<br>
+1.윈도우 아이콘 클릭<br>
 2.Windows builds from gyan.dev 클릭<br>
 3.ffmpeg-git-essentials.7z 다운<br>
-4. *이곳에 ffmpeg폴더 내부에 (📁 ffmpeg.exe , ffprobe.exe) 넣을것*<br>
+4.ffmpeg폴더 내부에 (📁 ffmpeg.exe , ffprobe.exe) 넣을것<br>
 
 ---
 
