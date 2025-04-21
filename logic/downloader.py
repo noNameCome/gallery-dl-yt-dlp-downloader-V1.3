@@ -142,7 +142,10 @@ def crawl_community_images_with_id(url, output_dir, log_func=print, cancel_check
 
     channel_name_elem = soup.select_one("h1.dynamic-text-view-model-wiz__h1 span")
     channel_name = channel_name_elem.get_text(strip=True).replace("/", "_") if channel_name_elem else "unknown_channel"
-    channel_dir = os.path.join(output_dir, channel_name)
+    
+    youtube_dir = os.path.join(output_dir, "youtube")
+    os.makedirs(youtube_dir, exist_ok=True)
+    channel_dir = os.path.join(youtube_dir, channel_name)
     os.makedirs(channel_dir, exist_ok=True)
     log_func(f"📁 채널 디렉토리 생성됨: {channel_dir}")
 
@@ -184,15 +187,7 @@ def crawl_community_images_with_id(url, output_dir, log_func=print, cancel_check
                     fail += 1
 
     log_func(f"\n🎯 최종 결과: 성공 {success}개, 실패 {fail}개")
-    if not cancel_check():
-        try:
-            if os.name == 'nt':
-                os.startfile(channel_dir)
-            elif os.name == 'posix':
-                subprocess.Popen(['xdg-open', channel_dir])
-        except Exception as e:
-            log_func(f"⚠️ 폴더 자동 열기 실패: {e}")
-    return success > 0
+    return channel_dir if success > 0 else None
 
 def smart_download(url, output_dir, filename, log_func, resolution="720", audio_only=False, cancel_check_func=lambda: False):
     try:
@@ -251,8 +246,12 @@ def download_gallery(url, output_dir, filename, selected_exts, log_func, status_
             ext_list_str = ", ".join(f"'{ext}'" for ext in selected_exts)
             command += ["--filter", f"extension in ({ext_list_str})"]
 
-        if filename:
-            command += ["-o", f"filename={filename}_{{num}}.{{extension}}"]
+            if len(selected_exts) == 1 and 'zip' in selected_exts:
+                if filename:
+                    command += ["-o", f"filename={filename}_{{filename}}.{{extension}}"]
+            else:
+                if filename:
+                    command += ["-o", f"filename={filename}_{{num}}.{{extension}}"]
 
         command.append(url)
         log_func(f"명령어 실행: {' '.join(command)}")
@@ -284,6 +283,7 @@ def download_gallery(url, output_dir, filename, selected_exts, log_func, status_
             if line:
                 line = line.strip()
                 log_func(line)
+                
                 if "[download]" in line:
                     downloaded += 1
                     percent = min(int((downloaded / total_guess) * 100), 100)
