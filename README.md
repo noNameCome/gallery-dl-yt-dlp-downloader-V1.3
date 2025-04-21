@@ -1,11 +1,20 @@
-# gallery-dl-yt-dlp-downloader-V1.4
+# gallery-dl-yt-dlp-downloader-V1.5
 gallery-dl,yt-dlp-downloader V1.4(KOREAN)
 
-![Image](https://github.com/user-attachments/assets/c9900799-0314-4567-9d24-0ed8bc6aa0f4)
+![Image](https://github.com/user-attachments/assets/1258e35d-06d9-4b1d-9a8b-00c36a01e4e6)
 
-유튜브 전체 게시물 이미지 크롤링
-![Image](https://github.com/user-attachments/assets/bbbf1481-1855-4c3a-a46c-061d3db35420)
----
+### 🔧 사용가능 기능
+
+gallery-dl 
+※ gallery-dl 지원 사이트 사용 가능 > 
+```bash
+https://github.com/mikf/gallery-dl/blob/master/docs/supportedsites.md <br>
+```
+yt-dlp
+yt-dlp 지원 사이트 사용 가능 >
+```bash
+https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md
+```
 
 ### 📥 요구사항
 
@@ -21,16 +30,14 @@ https://ffmpeg.org/download.html
 ### Pip
 ```bash
 pip install gallery-dl
-pip install yt-dl 
+pip install -U gallery-dl - 업데이트 명령어
 ```
----
+```bash
+pip install yt-dl
+pip install -U yt-dlp - 업데이트 명령어
+```
 
-### 🔧 변경사항
-※ gallery-dl,yt-dlp 통합<br>
-※ 유튜브 게시물 전체 이미지 크롤링 기능 추가 <br>
-※ 각종 오류 수정<br>
-※ config.json 샘플 파일 수정 <br>
-※ 에러시 재시도 제거 <br>
+---
 
 ---
 ### ⚙️ ffmpeg 설정법
