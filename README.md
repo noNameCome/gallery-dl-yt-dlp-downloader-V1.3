@@ -29,11 +29,11 @@ https://ffmpeg.org/download.html
 
 ### Pip
 ```bash
-pip install gallery-dl<br>
+pip install gallery-dl
 pip install -U gallery-dl - 업데이트 명령어
 ```
 ```bash
-pip install yt-dl<br>
+pip install yt-dl
 pip install -U yt-dlp - 업데이트 명령어
 ```
 
