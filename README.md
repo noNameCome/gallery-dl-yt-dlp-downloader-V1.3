@@ -1,3 +1,5 @@
+#### gallery-dl 이나 yt-dlp 지원 사이트 다운은 되겠지만 주 목적은 "케모노파티" 및 "유튜브" 다운 목적입니다.
+
 # gallery-dl-yt-dlp-downloader-V1.5
 gallery-dl,yt-dlp-downloader V1.5(KOREAN)
 
