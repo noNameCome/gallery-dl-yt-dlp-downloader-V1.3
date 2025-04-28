@@ -2,7 +2,7 @@
     "extractor": {
       "kemonoparty": {
         "fanbox": {
-          "directory": ["kemonoparty", "{service}", "{user}","{title}"],
+          "directory": ["kemonoparty", "{service}", "{user}"],
           "filename": "{title}-{num}.{extension}"
         },
         "gumroad": {
@@ -23,7 +23,7 @@
         "filename": "{num}.jpg"
       },
       "hitomi": {
-        "directory": ["hitomi", "{title}"],
+        "directory": ["{title}"],
         "filename": "{num}.jpg"
       },
       "twitter": {
@@ -34,12 +34,6 @@
       "danbooru": {
         "directory": ["danbooru", "{search_tags}"],
         "filename": "{id}.{extension}"
-      },
-      "arca": {
-        "cookies": {
-          "uid": "riggive0408@gmail.com",
-          "token": "An258951!"
-        }
       }
     }
   }
